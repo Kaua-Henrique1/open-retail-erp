@@ -1,0 +1,13 @@
+package com.mega.erp.retailerp;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class RetailErpApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(RetailErpApplication.class, args);
+    }
+
+}

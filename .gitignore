@@ -20,6 +20,8 @@ target/
 *.ipr
 mvnw
 mvnw.cmd
+.gitattributes
+.mvn/
 
 ### NetBeans ###
 /nbproject/private/
