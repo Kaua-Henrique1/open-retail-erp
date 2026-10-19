@@ -1,4 +1,4 @@
-package com.mega.erp.retailerp;
+package com.mega.erp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
