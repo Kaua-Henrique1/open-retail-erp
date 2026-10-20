@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1600">
+<meta name="hz:slide-selector" content=".slide">
+<title>VendaMais — Frente de Caixa (mockup)</title>
+<link rel="stylesheet" href="https://use.typekit.net/yxp6okc.css">
+<style>
+  :root {
+    /* Cores — papel semântico */
+    --color-brand: #2F5BEA;
+    --color-brand-soft: #E8EEFF;
+    --color-brand-ink: #1B3BB0;
+    --color-surface: #F4F6FA;
+    --color-surface-raised: #FFFFFF;
+    --color-surface-sunken: #EDF0F6;
+    --color-ink: #0F1729;
+    --color-ink-raised: #18223A;
+    --color-ink-line: #2A3652;
+    --color-text: #101828;
+    --color-text-muted: #5B6578;
+    --color-text-subtle: #8A93A6;
+    --color-text-on-ink: #F5F7FB;
+    --color-text-on-ink-muted: #A3AEC6;
+    --color-border: #E1E5EE;
+    --color-success: #12A150;
+    --color-success-strong: #0E8A44;
+    --color-success-soft: #E6F6EC;
+    --color-danger: #D92D20;
+    --color-warning: #F79009;
+
+    /* Tipografia */
+    --font-sans: "ibm-plex-sans", "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+    --font-mono: "ibm-plex-mono", "IBM Plex Mono", "Cascadia Mono", Consolas, monospace;
+    --text-xs: 12px; --text-sm: 14px; --text-base: 16px; --text-lg: 20px;
+    --text-xl: 24px; --text-2xl: 32px; --text-display: 56px;
+
+    /* Espaçamento — grid de 8px */
+    --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
+    --space-5: 24px; --space-6: 32px; --space-7: 40px; --space-8: 48px;
+
+    --radius-sm: 6px; --radius-md: 8px; --radius-lg: 16px; --radius-full: 999px;
+    --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.06);
+    --shadow-md: 0 4px 16px rgba(16, 24, 40, 0.08);
+    --shadow-focus: 0 0 0 4px rgba(47, 91, 234, 0.18);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1600px; height: 1000px; background: var(--color-surface); }
+  body {
+    font-family: var(--font-sans);
+    color: var(--color-text);
+    font-size: var(--text-base);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .num { font-variant-numeric: tabular-nums; }
+  .code { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+  svg { display: block; flex-shrink: 0; }
+
+  .slide {
+    position: relative;
+    width: 1600px; height: 1000px;
+    display: grid;
+    grid-template-rows: 64px 1fr 48px;
+    background: var(--color-surface);
+    overflow: hidden;
+  }
+
+  /* ===== Topbar ===== */
+  .topbar {
+    display: flex; align-items: center; gap: var(--space-5);
+    padding: 0 var(--space-5);
+    background: var(--color-surface-raised);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .brand { display: flex; align-items: center; gap: var(--space-3); }
+  .brand-mark {
+    width: 32px; height: 32px; border-radius: var(--radius-md);
+    background: var(--color-brand); color: #fff;
+    display: grid; place-items: center;
+  }
+  .brand-name { font-size: var(--text-lg); font-weight: 700; letter-spacing: -0.01em; }
+  .brand-name span { color: var(--color-brand); }
+  .divider-v { width: 1px; height: 24px; background: var(--color-border); }
+  .context { display: flex; align-items: center; gap: var(--space-2); font-size: var(--text-sm); color: var(--color-text-muted); }
+  .context strong { color: var(--color-text); font-weight: 600; }
+  .topbar-right { margin-left: auto; display: flex; align-items: center; gap: var(--space-5); }
+  .status {
+    display: inline-flex; align-items: center; gap: var(--space-2);
+    height: 32px; padding: 0 var(--space-3);
+    border-radius: var(--radius-full);
+    background: var(--color-success-soft); color: var(--color-success-strong);
+    font-size: var(--text-sm); font-weight: 600;
+  }
+  .status .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--color-success); }
+  .clock { display: flex; align-items: center; gap: var(--space-2); font-size: var(--text-sm); color: var(--color-text-muted); }
+  .user { display: flex; align-items: center; gap: var(--space-3); }
+  .avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--color-brand-soft); color: var(--color-brand-ink);
+    display: grid; place-items: center; font-weight: 700; font-size: var(--text-sm);
+  }
+  .user-name { font-size: var(--text-sm); font-weight: 600; line-height: 1.3; }
+  .user-role { font-size: var(--text-xs); color: var(--color-text-muted); }
+
+  /* ===== Main ===== */
+  .main {
+    display: grid;
+    grid-template-columns: 1fr 536px;
+    gap: var(--space-5);
+    padding: var(--space-5);
+    min-height: 0;
+  }
+  .sale { display: flex; flex-direction: column; gap: var(--space-4); min-height: 0; }
+
+  /* Leitor */
+  .scanner {
+    display: flex; align-items: center; gap: var(--space-4);
+    height: 88px; padding: 0 var(--space-5);
+    background: var(--color-surface-raised);
+    border: 2px solid var(--color-brand);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-focus);
+  }
+  .scanner-icon {
+    width: 48px; height: 48px; border-radius: var(--radius-md);
+    background: var(--color-brand-soft); color: var(--color-brand);
+    display: grid; place-items: center;
+  }
+  .scanner-field { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+  .scanner-label { font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-brand-ink); }
+  .scanner-input { display: flex; align-items: center; font-size: var(--text-xl); font-weight: 500; color: var(--color-text-subtle); }
+  .caret { width: 2px; height: 28px; background: var(--color-brand); margin-right: var(--space-2); }
+  .kbd {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 32px; height: 24px; padding: 0 var(--space-2);
+    border: 1px solid var(--color-border); border-bottom-width: 2px;
+    border-radius: var(--radius-sm);
+    background: var(--color-surface-raised);
+    font-family: var(--font-mono); font-size: var(--text-xs); font-weight: 600; color: var(--color-text-muted);
+  }
+  .scanner-hint { display: flex; align-items: center; gap: var(--space-2); font-size: var(--text-sm); color: var(--color-text-muted); }
+
+  /* Feedback do último bipe */
+  .feedback {
+    display: flex; align-items: center; gap: var(--space-3);
+    height: 48px; padding: 0 var(--space-4);
+    border-radius: var(--radius-md);
+    background: var(--color-success-soft);
+    color: var(--color-success-strong);
+    font-size: var(--text-sm);
+  }
+  .feedback .check {
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--color-success); color: #fff; display: grid; place-items: center;
+  }
+  .feedback strong { font-weight: 600; color: var(--color-text); }
+  .feedback .ean { margin-left: auto; color: var(--color-text-muted); font-size: var(--text-xs); }
+
+  /* Carrinho */
+  .cart {
+    flex: 1; min-height: 0;
+    display: flex; flex-direction: column;
+    background: var(--color-surface-raised);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+  }
+  .cart-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: var(--space-4) var(--space-5);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .cart-title { font-size: var(--text-lg); font-weight: 600; }
+  .cart-meta { display: flex; gap: var(--space-2); }
+  .chip {
+    display: inline-flex; align-items: center; height: 28px; padding: 0 var(--space-3);
+    border-radius: var(--radius-full); background: var(--color-surface-sunken);
+    font-size: var(--text-xs); font-weight: 600; color: var(--color-text-muted);
+  }
+  .grid-row {
+    display: grid;
+    grid-template-columns: 48px 1fr 152px 128px 136px 40px;
+    align-items: center;
+    column-gap: var(--space-4);
+    padding: 0 var(--space-5);
+  }
+  .cart-cols {
+    height: 40px; background: var(--color-surface);
+    font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--color-text-subtle);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .right { text-align: right; justify-self: end; }
+  .center { justify-self: center; }
+  .item {
+    height: 72px;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .item:last-child { border-bottom: 0; }
+  .item.is-new { background: linear-gradient(90deg, var(--color-brand-soft), rgba(232, 238, 255, 0.25)); box-shadow: inset 4px 0 0 var(--color-brand); }
+  .idx { font-size: var(--text-sm); color: var(--color-text-subtle); }
+  .prod-name { font-weight: 600; font-size: var(--text-base); line-height: 1.3; }
+  .prod-sub { display: flex; align-items: center; gap: var(--space-2); margin-top: 2px; font-size: var(--text-xs); color: var(--color-text-muted); }
+  .tag {
+    display: inline-flex; align-items: center; height: 20px; padding: 0 var(--space-2);
+    border-radius: var(--radius-sm); font-size: 11px; font-weight: 600;
+    background: var(--color-surface-sunken); color: var(--color-text-muted);
+  }
+  .tag.new { background: var(--color-brand); color: #fff; }
+  .stepper {
+    display: inline-flex; align-items: center;
+    height: 40px; border: 1px solid var(--color-border); border-radius: var(--radius-md);
+    background: var(--color-surface-raised);
+  }
+  .stepper .btn-step { width: 40px; height: 38px; display: grid; place-items: center; color: var(--color-text-muted); }
+  .stepper .qty { min-width: 40px; text-align: center; font-weight: 600; font-size: var(--text-base); border-left: 1px solid var(--color-border); border-right: 1px solid var(--color-border); line-height: 38px; }
+  .price { font-size: var(--text-base); color: var(--color-text-muted); }
+  .subtotal { font-size: var(--text-base); font-weight: 600; }
+  .cart-foot {
+    margin-top: auto;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px; padding: 0 var(--space-5);
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    font-size: var(--text-sm); color: var(--color-text-muted);
+  }
+  .cart-foot .hint { display: flex; align-items: center; gap: var(--space-2); }
+  .cart-foot .sub { display: flex; align-items: baseline; gap: var(--space-3); }
+  .cart-foot .sub strong { font-size: var(--text-xl); font-weight: 600; color: var(--color-text); }
+  .remove { width: 32px; height: 32px; border-radius: var(--radius-sm); display: grid; place-items: center; color: var(--color-text-subtle); }
+
+  /* ===== Painel de pagamento ===== */
+  .checkout {
+    display: flex; flex-direction: column;
+    background: var(--color-ink);
+    color: var(--color-text-on-ink);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+  }
+  .total-block { padding: var(--space-5) var(--space-6) var(--space-5); border-bottom: 1px solid var(--color-ink-line); }
+  .eyebrow { font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-on-ink-muted); }
+  .total-value { display: flex; align-items: baseline; gap: var(--space-2); margin-top: var(--space-1); }
+  .total-value .cur { font-size: var(--text-xl); font-weight: 500; color: var(--color-text-on-ink-muted); }
+  .total-value .amount { font-size: var(--text-display); font-weight: 600; letter-spacing: -0.02em; line-height: 1.1; }
+  .total-sub { margin-top: var(--space-2); font-size: var(--text-sm); color: var(--color-text-on-ink-muted); }
+
+  .pay-block { padding: var(--space-5) var(--space-6); display: flex; flex-direction: column; gap: var(--space-4); }
+  .section-head { display: flex; align-items: center; justify-content: space-between; }
+  .methods { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-2); }
+  .method {
+    position: relative;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-2);
+    height: 80px; border-radius: var(--radius-md);
+    background: var(--color-ink-raised); border: 1px solid var(--color-ink-line);
+    font-size: var(--text-sm); font-weight: 600; color: var(--color-text-on-ink);
+  }
+  .method .fkey { position: absolute; top: 6px; right: 8px; font-family: var(--font-mono); font-size: 11px; color: var(--color-text-on-ink-muted); }
+  .method.is-active { border-color: var(--color-brand); background: rgba(47, 91, 234, 0.16); box-shadow: inset 0 0 0 1px var(--color-brand); }
+
+  .payments { display: flex; flex-direction: column; gap: var(--space-2); }
+  .payment {
+    display: flex; align-items: center; gap: var(--space-3);
+    height: 56px; padding: 0 var(--space-4);
+    border-radius: var(--radius-md);
+    background: var(--color-ink-raised);
+  }
+  .payment-icon { width: 32px; height: 32px; border-radius: var(--radius-sm); display: grid; place-items: center; background: rgba(255,255,255,0.06); color: var(--color-text-on-ink); }
+  .payment-name { font-weight: 600; font-size: var(--text-sm); }
+  .payment-note { font-size: var(--text-xs); color: var(--color-text-on-ink-muted); }
+  .payment-amount { margin-left: auto; font-size: var(--text-lg); font-weight: 600; }
+  .payment-x { width: 32px; height: 32px; display: grid; place-items: center; color: var(--color-text-on-ink-muted); }
+
+  .summary { margin-top: auto; padding: var(--space-5) var(--space-6); border-top: 1px solid var(--color-ink-line); display: flex; flex-direction: column; gap: var(--space-3); }
+  .sum-row { display: flex; justify-content: space-between; align-items: baseline; font-size: var(--text-base); color: var(--color-text-on-ink-muted); }
+  .sum-row .num { color: var(--color-text-on-ink); font-size: var(--text-lg); font-weight: 500; }
+  .sum-row.ok .num { color: #4ADE80; }
+  .change {
+    display: flex; justify-content: space-between; align-items: center;
+    height: 64px; padding: 0 var(--space-4);
+    border-radius: var(--radius-md);
+    background: rgba(18, 161, 80, 0.14); border: 1px solid rgba(74, 222, 128, 0.35);
+  }
+  .change-label { display: flex; flex-direction: column; }
+  .change-label strong { font-size: var(--text-base); font-weight: 600; color: #BBF7D0; }
+  .change-label span { font-size: var(--text-xs); color: var(--color-text-on-ink-muted); }
+  .change .num { font-size: var(--text-2xl); font-weight: 600; color: #4ADE80; }
+
+  .actions { display: grid; grid-template-columns: 160px 1fr; gap: var(--space-3); padding: 0 var(--space-6) var(--space-6); }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2);
+    height: 64px; border-radius: var(--radius-md);
+    font-size: var(--text-base); font-weight: 600;
+  }
+  .btn-ghost { background: transparent; border: 1px solid var(--color-ink-line); color: var(--color-text-on-ink-muted); }
+  .btn-primary { background: var(--color-success); color: #fff; font-size: var(--text-lg); box-shadow: 0 8px 24px rgba(18, 161, 80, 0.35); }
+  .btn .kbd-on { font-family: var(--font-mono); font-size: var(--text-xs); padding: 2px 8px; border-radius: var(--radius-sm); background: rgba(255,255,255,0.18); }
+  .btn-ghost .kbd-on { background: rgba(255,255,255,0.06); }
+
+  /* ===== Barra de atalhos ===== */
+  .shortcuts {
+    display: flex; align-items: center; gap: var(--space-5);
+    padding: 0 var(--space-5);
+    background: var(--color-surface-raised);
+    border-top: 1px solid var(--color-border);
+    font-size: var(--text-sm); color: var(--color-text-muted);
+  }
+  .shortcut { display: flex; align-items: center; gap: var(--space-2); }
+  .shortcuts .spacer { margin-left: auto; display: flex; align-items: center; gap: var(--space-2); font-size: var(--text-xs); color: var(--color-text-subtle); }
+</style>
+</head>
+<body>
+<div class="slide" data-canvas-width="1600" data-canvas-height="1000">
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 8H6"/><circle cx="10" cy="20.5" r="1"/><circle cx="17" cy="20.5" r="1"/></svg>
+      </div>
+      <div class="brand-name">Venda<span>Mais</span></div>
+    </div>
+    <div class="divider-v"></div>
+    <div class="context">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M7 20h10M12 16v4"/></svg>
+      <strong>Caixa 01</strong> · Loja Centro · Venda <span class="code">#000482</span>
+    </div>
+    <div class="topbar-right">
+      <div class="status"><span class="dot"></span>Online</div>
+      <div class="clock">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        <span class="num">20/10/2026 · 17:42</span>
+      </div>
+      <div class="divider-v"></div>
+      <div class="user">
+        <div class="avatar">AS</div>
+        <div>
+          <div class="user-name">Ana Souza</div>
+          <div class="user-role">Operadora de caixa</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Conteúdo -->
+  <main class="main">
+    <section class="sale">
+
+      <div class="scanner">
+        <div class="scanner-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 8v8M10 8v8M13 8v8M16 8v8"/></svg>
+        </div>
+        <div class="scanner-field">
+          <div class="scanner-label">Código de barras</div>
+          <div class="scanner-input"><span class="caret"></span>Bipe o produto ou digite o código EAN</div>
+        </div>
+        <div class="scanner-hint"><span class="kbd">F4</span> Quantidade</div>
+        <div class="scanner-hint"><span class="kbd">F2</span> Buscar por nome</div>
+      </div>
+
+      <div class="feedback">
+        <div class="check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></svg></div>
+        <span><strong>Boné Aba Curva Preto</strong> adicionado ao carrinho</span>
+        <span class="ean code">EAN 7896548213304 · agora</span>
+      </div>
+
+      <div class="cart">
+        <div class="cart-head">
+          <div class="cart-title">Carrinho</div>
+          <div class="cart-meta">
+            <span class="chip">6 itens</span>
+            <span class="chip">9 peças</span>
+          </div>
+        </div>
+        <div class="grid-row cart-cols">
+          <span>#</span><span>Produto</span><span class="center">Qtd</span><span class="right">Unitário</span><span class="right">Subtotal</span><span></span>
+        </div>
+
+        <div class="grid-row item">
+          <span class="idx code">01</span>
+          <div><div class="prod-name">Camiseta Algodão Premium M</div><div class="prod-sub"><span class="tag">Roupas</span><span class="code">7891234567890</span></div></div>
+          <div class="stepper center"><span class="btn-step">−</span><span class="qty num">2</span><span class="btn-step">+</span></div>
+          <span class="price num right">89,90</span>
+          <span class="subtotal num right">179,80</span>
+          <span class="remove"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg></span>
+        </div>
+        <div class="grid-row item">
+          <span class="idx code">02</span>
+          <div><div class="prod-name">Calça Jeans Slim 42</div><div class="prod-sub"><span class="tag">Roupas</span><span class="code">7891234501245</span></div></div>
+          <div class="stepper center"><span class="btn-step">−</span><span class="qty num">1</span><span class="btn-step">+</span></div>
+          <span class="price num right">159,90</span>
+          <span class="subtotal num right">159,90</span>
+          <span class="remove"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg></span>
+        </div>
+        <div class="grid-row item">
+          <span class="idx code">03</span>
+          <div><div class="prod-name">Meia Esportiva — kit 3 pares</div><div class="prod-sub"><span class="tag">Roupas</span><span class="code">7891234533017</span></div></div>
+          <div class="stepper center"><span class="btn-step">−</span><span class="qty num">1</span><span class="btn-step">+</span></div>
+          <span class="price num right">29,90</span>
+          <span class="subtotal num right">29,90</span>
+          <span class="remove"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg></span>
+        </div>
+        <div class="grid-row item">
+          <span class="idx code">04</span>
+          <div><div class="prod-name">Garrafa Térmica Inox 500 ml</div><div class="prod-sub"><span class="tag">Utilidades</span><span class="code">7896548200113</span></div></div>
+          <div class="stepper center"><span class="btn-step">−</span><span class="qty num">1</span><span class="btn-step">+</span></div>
+          <span class="price num right">64,90</span>
+          <span class="subtotal num right">64,90</span>
+          <span class="remove"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg></span>
+        </div>
+        <div class="grid-row item">
+          <span class="idx code">05</span>
+          <div><div class="prod-name">Pote Hermético de Vidro 1 L</div><div class="prod-sub"><span class="tag">Utilidades</span><span class="code">7896548207051</span></div></div>
+          <div class="stepper center"><span class="btn-step">−</span><span class="qty num">3</span><span class="btn-step">+</span></div>
+          <span class="price num right">18,50</span>
+          <span class="subtotal num right">55,50</span>
+          <span class="remove"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg></span>
+        </div>
+        <div class="grid-row item is-new">
+          <span class="idx code">06</span>
+          <div><div class="prod-name">Boné Aba Curva Preto</div><div class="prod-sub"><span class="tag new">Novo</span><span class="tag">Roupas</span><span class="code">7896548213304</span></div></div>
+          <div class="stepper center"><span class="btn-step">−</span><span class="qty num">1</span><span class="btn-step">+</span></div>
+          <span class="price num right">49,90</span>
+          <span class="subtotal num right">49,90</span>
+          <span class="remove"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg></span>
+        </div>
+        <div class="cart-foot">
+          <span class="hint"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg>Bipar o mesmo produto de novo soma na quantidade</span>
+          <span class="sub">Subtotal <strong class="num">R$ 539,90</strong></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pagamento -->
+    <aside class="checkout">
+      <div class="total-block">
+        <div class="eyebrow">Total a pagar</div>
+        <div class="total-value"><span class="cur">R$</span><span class="amount num">539,90</span></div>
+        <div class="total-sub">6 itens · 9 peças</div>
+      </div>
+
+      <div class="pay-block">
+        <div class="section-head">
+          <div class="eyebrow">Forma de pagamento</div>
+        </div>
+        <div class="methods">
+          <div class="method is-active">
+            <span class="fkey">F5</span>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 12h.01M18 12h.01"/></svg>
+            Dinheiro
+          </div>
+          <div class="method">
+            <span class="fkey">F6</span>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5 21.5 12 12 21.5 2.5 12z"/><path d="m8.5 12 3.5-3.5 3.5 3.5-3.5 3.5z"/></svg>
+            Pix
+          </div>
+          <div class="method">
+            <span class="fkey">F7</span>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></svg>
+            Débito
+          </div>
+          <div class="method">
+            <span class="fkey">F8</span>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M14 15h4"/></svg>
+            Crédito
+          </div>
+        </div>
+
+        <div class="section-head" style="margin-top: 8px;">
+          <div class="eyebrow">Pagamentos lançados</div>
+        </div>
+        <div class="payments">
+          <div class="payment">
+            <div class="payment-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5 21.5 12 12 21.5 2.5 12z"/><path d="m8.5 12 3.5-3.5 3.5 3.5-3.5 3.5z"/></svg></div>
+            <div><div class="payment-name">Pix</div><div class="payment-note">Confirmado pelo operador</div></div>
+            <div class="payment-amount num">300,00</div>
+            <div class="payment-x"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></div>
+          </div>
+          <div class="payment">
+            <div class="payment-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/></svg></div>
+            <div><div class="payment-name">Dinheiro</div><div class="payment-note">Recebido do cliente</div></div>
+            <div class="payment-amount num">250,00</div>
+            <div class="payment-x"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="summary">
+        <div class="sum-row"><span>Total da venda</span><span class="num">R$ 539,90</span></div>
+        <div class="sum-row"><span>Total pago</span><span class="num">R$ 550,00</span></div>
+        <div class="sum-row ok"><span>Saldo restante</span><span class="num">R$ 0,00</span></div>
+        <div class="change">
+          <div class="change-label"><strong>Troco</strong><span>Devolver em dinheiro</span></div>
+          <span class="num">R$ 10,10</span>
+        </div>
+      </div>
+
+      <div class="actions">
+        <div class="btn btn-ghost">Cancelar <span class="kbd-on">Esc</span></div>
+        <div class="btn btn-primary">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></svg>
+          Finalizar venda <span class="kbd-on">F10</span>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Atalhos -->
+  <footer class="shortcuts">
+    <span class="shortcut"><span class="kbd">F2</span> Buscar</span>
+    <span class="shortcut"><span class="kbd">F4</span> Quantidade</span>
+    <span class="shortcut"><span class="kbd">F5–F8</span> Pagamento</span>
+    <span class="shortcut"><span class="kbd">Del</span> Remover item</span>
+    <span class="shortcut"><span class="kbd">F10</span> Finalizar</span>
+    <span class="shortcut"><span class="kbd">Esc</span> Cancelar venda</span>
+    <span class="spacer">Mockup ilustrativo · dados fictícios</span>
+  </footer>
+</div>
+</body>
+</html>
