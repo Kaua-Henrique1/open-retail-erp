@@ -1,0 +1,141 @@
+.container {
+  max-width: 480px;
+  margin: 40px auto;
+  padding: 24px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.subtitulo {
+  margin: 4px 0 24px;
+  color: #666;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-top: 16px;
+  margin-bottom: 4px;
+  font-weight: bold;
+}
+
+input,
+select {
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  padding: 8px 16px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #f5f5f5;
+  cursor: pointer;
+}
+
+.busca {
+  display: flex;
+  gap: 8px;
+}
+
+.busca input {
+  flex: 1;
+}
+
+.resultados {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.resultados button {
+  width: 100%;
+  text-align: left;
+  border: none;
+  border-bottom: 1px solid #eee;
+  border-radius: 0;
+  background: #fff;
+}
+
+.resultados button:hover {
+  background: #eef3ff;
+}
+
+.produto-selecionado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: #eef3ff;
+  border-radius: 4px;
+}
+
+.produto-selecionado small {
+  display: block;
+  color: #555;
+}
+
+.btn-link {
+  border: none;
+  background: none;
+  color: #2f5bea;
+  text-decoration: underline;
+}
+
+.btn-principal {
+  margin-top: 24px;
+  padding: 12px;
+  background: #2f5bea;
+  color: #fff;
+  border: none;
+  font-weight: bold;
+}
+
+.btn-principal:disabled {
+  background: #9aa9d8;
+  cursor: not-allowed;
+}
+
+.info {
+  margin: 8px 0 0;
+  color: #666;
+}
+
+.erro-campo {
+  margin: 4px 0 0;
+  color: #c62828;
+  font-size: 14px;
+}
+
+.erro {
+  margin: 16px 0 0;
+  padding: 8px;
+  background: #fdecea;
+  color: #c62828;
+  border-radius: 4px;
+}
+
+.toast {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  padding: 12px 20px;
+  background: #2e7d32;
+  color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
