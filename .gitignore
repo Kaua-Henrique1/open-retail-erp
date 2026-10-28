@@ -1,13 +1,26 @@
-HELP.md
-target/
-.mvn/wrapper/maven-wrapper.jar
+# ===== Segredos =====
+.env
+.env.*
+!.env.example
+
+# ===== Backend (Maven / Spring) =====
+backend/target/
+backend/HELP.md
 !**/src/main/**/target/
 !**/src/test/**/target/
-.env
-.angular
-node_modules
 
-### STS ###
+# ===== Frontend (Angular) =====
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+frontend/coverage/
+
+# ===== IDEs =====
+.idea/
+*.iws
+*.iml
+*.ipr
+.vscode/
 .apt_generated
 .classpath
 .factorypath
@@ -15,26 +28,12 @@ node_modules
 .settings
 .springBeans
 .sts4-cache
-
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
-mvnw
-mvnw.cmd
-.gitattributes
-.mvn/
-
-### NetBeans ###
 /nbproject/private/
 /nbbuild/
 /dist/
 /nbdist/
 /.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
 
-### VS Code ###
-.vscode/
+# ===== Sistema =====
+.DS_Store
+Thumbs.db
