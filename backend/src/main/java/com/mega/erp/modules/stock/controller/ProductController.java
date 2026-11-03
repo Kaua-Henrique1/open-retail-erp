@@ -1,7 +1,11 @@
 package com.mega.erp.modules.stock.controller;
 
 import com.mega.erp.modules.stock.dto.ProductRequestDTO;
+import com.mega.erp.modules.stock.dto.ProductResponseDTO;
+import com.mega.erp.modules.stock.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -15,6 +19,12 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Estoque / Produtos", description = "Endpoints para gerenciamento de catálogo de produtos e saldos de estoque")
 public class ProductController {
 
+    private final ProductService productService;
+
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
+
     @PostMapping
     @Operation(summary = "Cadastrar um novo produto", description = "Registra um novo produto no catálogo e ajusta o saldo inicial de estoque.")
     @ApiResponses(value = {
@@ -27,13 +37,17 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Produto cadastrado com sucesso!");
     }
 
-    @GetMapping("/ean/{barcode}")
+    @GetMapping("/ean/{ean}")
     @Operation(summary = "Buscar produto por Código de Barras (EAN)", description = "Endpoint otimizado para o módulo de PDV e leitor de código de barras.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Produto encontrado com sucesso"),
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Produto encontrado com sucesso",
+                    content = @Content(schema = @Schema(implementation = ProductResponseDTO.class))
+            ),
             @ApiResponse(responseCode = "404", description = "Produto não localizado no banco de dados")
     })
-    public ResponseEntity<String> getByBarcode(@PathVariable String barcode) {
-        return ResponseEntity.ok("Busca por EAN: " + barcode);
+    public ResponseEntity<ProductResponseDTO> getByEan(@PathVariable String ean) {
+        return ResponseEntity.ok(productService.findByEan(ean));
     }
 }
