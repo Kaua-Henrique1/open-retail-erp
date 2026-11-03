@@ -1,0 +1,82 @@
+<div class="container">
+  <h1>Baixa de produtos</h1>
+  <p class="subtitulo">Registre produtos quebrados, com defeito ou perdidos.</p>
+
+  <form [formGroup]="form" (ngSubmit)="enviar()">
+    <!-- Produto -->
+    <label for="busca">Produto</label>
+
+    @if (produtoSelecionado(); as produto) {
+      <div class="produto-selecionado">
+        <div>
+          <strong>{{ produto.name }}</strong>
+          <small>Código: {{ produto.barcode }} · Em estoque: {{ produto.quantity }}</small>
+        </div>
+        <button type="button" class="btn-link" (click)="trocarProduto()">Trocar</button>
+      </div>
+    } @else {
+      <div class="busca">
+        <input
+          id="busca"
+          type="text"
+          placeholder="Nome ou código de barras"
+          [value]="termoBusca"
+          (input)="termoBusca = $any($event.target).value"
+          (keydown.enter)="$event.preventDefault(); buscar()"
+        />
+        <button type="button" (click)="buscar()">Buscar</button>
+      </div>
+
+      @if (mensagemBusca()) {
+        <p class="info">{{ mensagemBusca() }}</p>
+      }
+
+      @if (resultados().length) {
+        <ul class="resultados">
+          @for (produto of resultados(); track produto.id) {
+            <li>
+              <button type="button" (click)="selecionar(produto)">
+                {{ produto.name }} <small>({{ produto.barcode }})</small>
+              </button>
+            </li>
+          }
+        </ul>
+      }
+
+      @if (form.controls.produtoId.touched && form.controls.produtoId.invalid) {
+        <p class="erro-campo">Selecione um produto.</p>
+      }
+    }
+
+    <!-- Quantidade -->
+    <label for="quantidade">Quantidade</label>
+    <input id="quantidade" type="number" min="1" formControlName="quantidade" />
+    @if (form.controls.quantidade.touched && form.controls.quantidade.invalid) {
+      <p class="erro-campo">Informe uma quantidade de pelo menos 1.</p>
+    }
+
+    <!-- Motivo -->
+    <label for="motivo">Motivo</label>
+    <select id="motivo" formControlName="motivo">
+      <option value="" disabled>Selecione o motivo</option>
+      @for (motivo of motivos; track motivo.valor) {
+        <option [value]="motivo.valor">{{ motivo.texto }}</option>
+      }
+    </select>
+    @if (form.controls.motivo.touched && form.controls.motivo.invalid) {
+      <p class="erro-campo">Selecione o motivo.</p>
+    }
+
+    @if (erro()) {
+      <p class="erro">{{ erro() }}</p>
+    }
+
+    <button type="submit" class="btn-principal" [disabled]="enviando()">
+      {{ enviando() ? 'Registrando...' : 'Registrar baixa' }}
+    </button>
+  </form>
+</div>
+
+@if (toast()) {
+  <div class="toast" role="status">{{ toast() }}</div>
+}
