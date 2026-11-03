@@ -112,7 +112,7 @@ Todas as rotas ficam sob `/api/v1`. O contrato completo está no Swagger.
 | `GET` | `/api/v1/reports/sales-summary` | Faturamento, total de vendas e ticket médio por período | PDV-002 |
 | `GET` | `/api/v1/reports/slow-moving-products` | Produtos sem venda há X dias | PDV-002 |
 | `POST` | `/api/v1/products` | Cadastro de produto | — |
-| `GET` | `/api/v1/products/ean/{barcode}` | Busca de produto por código de barras | PDV-005 |
+| `GET` | `/api/v1/products/ean/{ean}` | Busca de produto por código de barras | PDV-005 |
 | `POST` | `/api/v1/sales` | Registra venda com pagamento misto (exige header `Idempotency-Key`) | PDV-006 |
 | `GET` | `/api/v1/sales/{id}` | Detalhe de uma venda | — |
 | `PATCH` | `/api/v1/sales/{id}/status` | Atualiza o status da venda | — |
