@@ -1,8 +1,14 @@
 package com.mega.erp.modules.sales.domain;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@Getter
+@RequiredArgsConstructor
 public enum SaleStatus {
-    PENDING,  // Aguardando pagamento
-    PAID,     // Pago
-    CANCELED, // Cancelado
-    REFUNDED  // Reembolsado
+    PENDENTE("Pendente"),
+    CONCLUIDA("Concluida"),
+    CANCELADA("Cancelada");
+
+    private final String description;
 }

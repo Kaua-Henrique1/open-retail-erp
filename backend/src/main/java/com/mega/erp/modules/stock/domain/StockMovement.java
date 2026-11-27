@@ -41,28 +41,28 @@ public class StockMovement {
     private MovementType type;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "motivo_operacao", nullable = false, length = 30)
+    @Column(name = "motivo_operacao", nullable = false, length = 50)
     private OperationReason reason;
 
     @Column(name = "documento_origem", length = 100)
     private String originDocument;
 
-    @Column(name = "quantidade", nullable = false, precision = 10, scale = 3)
+    @Column(name = "quantidade", nullable = false, precision = 15, scale = 4)
     private BigDecimal quantity;
 
-    @Column(name = "saldo_anterior", nullable = false, precision = 10, scale = 3)
+    @Column(name = "saldo_anterior", nullable = false, precision = 15, scale = 4)
     private BigDecimal previousBalance;
 
-    @Column(name = "saldo_atual", nullable = false, precision = 10, scale = 3)
+    @Column(name = "saldo_atual", nullable = false, precision = 15, scale = 4)
     private BigDecimal currentBalance;
 
-    @Column(name = "valor_unitario_movimento", nullable = false, precision = 10, scale = 2)
+    @Column(name = "valor_unitario_movimento", nullable = false, precision = 15, scale = 4)
     private BigDecimal unitValue;
 
-    @Column(name = "impostos_rateados", precision = 10, scale = 2)
+    @Column(name = "impostos_rateados", precision = 15, scale = 4)
     private BigDecimal apportionedTaxes;
 
-    @Column(name = "data_hora", nullable = false)
+    @Column(name = "data_hora")
     private LocalDateTime dateTime;
 
     // Método utilitário de negócio no próprio model
