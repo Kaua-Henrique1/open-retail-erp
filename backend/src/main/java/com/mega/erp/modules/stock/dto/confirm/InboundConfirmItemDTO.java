@@ -3,7 +3,11 @@ package com.mega.erp.modules.stock.dto.confirm;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
@@ -11,6 +15,9 @@ import java.util.UUID;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Schema(description = "Item conferido e validado para entrada no estoque")
 public class InboundConfirmItemDTO {
 
@@ -29,6 +36,7 @@ public class InboundConfirmItemDTO {
     private BigDecimal unitValue;
 
     @Schema(description = "Valor total de impostos rateados para este item (IPI, ICMS ST, etc.)")
+    @PositiveOrZero(message = "Os impostos rateados não podem ser negativos")
     private BigDecimal apportionedTaxes;
 
     @Schema(description = "UUID do Lote (caso o produto seja controlado por lote)")

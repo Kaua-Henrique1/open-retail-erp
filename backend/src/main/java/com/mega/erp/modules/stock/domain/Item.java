@@ -1,26 +1,21 @@
 package com.mega.erp.modules.stock.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Index;
-import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.databind.JsonNode;
+import jakarta.persistence.*;
+import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.math.BigDecimal;
 import java.util.UUID;
 
 @Entity
-@Table(name = "item", indexes = {
-        @Index(name = "idx_item_codigo_barras", columnList = "codigo_barras")
-})
+@Table(name = "item")
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Item {
 
     @Id
@@ -28,6 +23,7 @@ public class Item {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
+    // TODO: Mapear como relacionamento quando a entidade Empresa for criada.
     @Column(name = "empresa_id", nullable = false)
     private UUID companyId;
 
@@ -53,22 +49,27 @@ public class Item {
     private BigDecimal defaultSalePrice;
 
     @Column(name = "custo_medio_ponderado", precision = 15, scale = 4)
-    private BigDecimal averageCost;
+    private BigDecimal weightedAverageCost;
 
     @Column(name = "controla_estoque")
-    private Boolean controlsStock;
+    private Boolean stockControlled;
+
+    @Column(name = "controla_lote", nullable = false)
+    private Boolean batchControlled;
 
     @Column(name = "ncm", length = 10)
-    private String ncmCode;
+    private String ncm;
 
     @Column(name = "cest", length = 10)
-    private String cestCode;
+    private String cest;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "origem", length = 50)
-    private String origin;
+    private OrigemMercadoria origin;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "unidade_medida", length = 10)
-    private String unitOfMeasure;
+    private UnidadeMedida unitOfMeasure;
 
     @Column(name = "peso_bruto", precision = 10, scale = 3)
     private BigDecimal grossWeight;
@@ -79,6 +80,7 @@ public class Item {
     @Column(name = "estoque_maximo", precision = 10, scale = 3)
     private BigDecimal maximumStock;
 
+    @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "dimensoes", columnDefinition = "jsonb")
-    private String dimensions;
+    private JsonNode dimensions;
 }

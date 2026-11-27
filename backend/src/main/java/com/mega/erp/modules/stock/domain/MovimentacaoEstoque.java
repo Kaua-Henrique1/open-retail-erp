@@ -14,7 +14,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class StockMovement {
+public class MovimentacaoEstoque {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
